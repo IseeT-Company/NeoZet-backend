@@ -1,0 +1,50 @@
+.header {
+  position: relative;
+  width: 100%;
+  color: #000;
+
+  .navbar { background-color: transparent !important; }
+  .carousel-item{ height: 40vw !important; max-height: 40vw !important; }
+  .d-block{ height: 40vw !important; max-height: 40vw !important; }
+
+  &__inner {
+    width: 100%;
+    padding: 15px 0;
+  }
+
+  &__content {
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .logo {
+    width: 100%;
+    max-width: 80px;
+  }
+
+  .nav {
+    display: flex;
+    align-items: center;
+
+    &-item {
+      font-size: 15px;
+      color: #000 !important;
+      border-bottom: 2px solid transparent;
+      transition: all 0.2s ease-in-out;
+      padding-bottom: 1px;
+    }
+
+    &-item:hover {
+      color: $violet !important;
+      border-bottom: 2px solid $violet;
+    }
+
+    &-link {
+      color: #000 !important;
+    }
+
+    &-link:hover {
+      color: $violet !important
+    }
+  }
+}
