@@ -13,6 +13,11 @@ class promoController {
         res.send(note)
     }
 
+    async getActivePromotions(req, res) {
+        const notes = await promoService.getActivePromotions()
+        res.send(notes)
+    }
+
     async deletePromotion(req, res) {
         const id = req.params.id
         const note = await promoService.deletePromotion(id)

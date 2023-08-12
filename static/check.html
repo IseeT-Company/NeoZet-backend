@@ -9,15 +9,20 @@
 </head>
 <body>
 
-<form action="tg/message" method="post" enctype="application/x-www-form-urlencoded">
-    <label >
-        <input type="text" name="name">
-        <input type="text" name="email">
-        <input type="text" name="phone">
-        <input type="text" name="message">
-    </label>
+<form action="api/message" method="post" enctype="multipart/form-data">
+
+    <input type="text" name="name">
+    <input type="text" name="email">
+    <input type="text" name="phone">
+    <input type="text" name="message">
+    <input type="file" multiple name="filedata">
+    <div id="recaptcha-v2" data-sitekey="6Le4y4knAAAAAD116p4P7f_e_YzmqLyg3s6qL3Qy" class="g-recaptcha" ></div>
+
+
     <button type="submit">Submit</button>
 </form>
+
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
 </body>
 </html>

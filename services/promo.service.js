@@ -7,33 +7,29 @@ class promoService {
         return rows
     }
 
+    async getActivePromotions() {
+        const [rows] = await pool.query("SELECT * FROM promotion WHERE status = 1")
+        return rows
+    }
 
     async getPromotion(id) {
-
-        const [rows] = await pool.query(`
-            SELECT *
-            FROM promotion
-            WHERE id = ?
-        `, [id])
+        const [rows] = await pool.query("SELECT * FROM promotion WHERE id =?", [id])
         return rows[0]
     }
 
-    async deletePromotion(id) {
-        const [rows] = await pool.query(`
-            DELETE
-            FROM promotion
-            WHERE id = ?
-        `, [id])
-        return this.getPromotions()
+    async createPromotion(promotion) {
+        const [rows] = await pool.query("INSERT INTO promotion SET?", promotion)
+        return rows
     }
 
-    async createPromotion(title, contents) {
-        const [result] = await pool.query(`
-            INSERT INTO promotion (title, contents)
-            VALUES (?, ?)
-        `, [title, contents])
-        const id = result.insertId
-        return this.getPromotion(id)
+    async updatePromotion(id, promotion) {
+        const [rows] = await pool.query("UPDATE promotion SET? WHERE id =?", [promotion, id])
+        return rows
+    }
+
+    async deletePromotion(id) {
+        const [rows] = await pool.query("DELETE FROM promotion WHERE id =?", [id])
+        return rows
     }
 }
 

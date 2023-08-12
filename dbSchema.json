@@ -1,0 +1,28 @@
+{
+  "promo": {
+    "id" : 1,
+    "title" : "example",
+    "image" :  "url",
+    "description" : "Test description",
+    "status": true
+  },
+  "categories": {
+    "id" : 1,
+    "title": "Name of category"
+  },
+  "portfolio": {
+    "id" : 1,
+    "image": "url",
+    "category": 1
+  },
+  "partners": {
+    "id" : 1,
+    "image": "url"
+  },
+  "services": {
+    "id" : 1,
+    "title": "Test title",
+    "description" : "Test desc",
+    "image": "url"
+  }
+}
