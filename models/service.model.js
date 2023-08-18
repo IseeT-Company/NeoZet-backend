@@ -1,7 +1,7 @@
 export default class serviceModel {
-    constructor(title, image_url, description){
+    constructor(title, image, description){
         this.title = title;
-        this.image_url = image_url;
+        this.image = image;
         this.description = description;
     }
 }

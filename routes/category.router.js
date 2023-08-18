@@ -1,13 +1,19 @@
 import {Router} from "express";
 import categoryController from "../controllers/category.controller.js"
+import multer from "multer";
+import {nanoid} from "nanoid";
+import cookieJwtAuth from "../middlewares/auth.middleware.js";
 
 const categoryRouter = Router()
 
 
+
+
+categoryRouter.post("/category", cookieJwtAuth, categoryController.createCategory)
+
 categoryRouter.get("/categories", categoryController.getCategories)
 categoryRouter.get("/category/:id", categoryController.getCategory)
-categoryRouter.post("/category", categoryController.createCategory)
-categoryRouter.delete("/category/:id", categoryController.deleteCategory)
+categoryRouter.delete("/category/:id", cookieJwtAuth,categoryController.deleteCategory)
 
 
 categoryRouter.use((err, req, res, next) => {

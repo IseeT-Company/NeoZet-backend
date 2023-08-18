@@ -10,19 +10,42 @@
 <body>
 
 <form action="api/message" method="post" enctype="multipart/form-data">
+    <p>Отправка завяки:</p>
 
-    <input type="text" name="name">
-    <input type="text" name="email">
-    <input type="text" name="phone">
-    <input type="text" name="message">
-    <input type="file" multiple name="filedata">
+    <input type="text" name="name" placeholder="Имя">
+    <input type="text" name="email" placeholder="Почта">
+    <input type="text" name="phone" placeholder="Номер телефона">
+    <input type="text" name="message" placeholder="Заявка">
+    <input type="file" multiple name="filedata" placeholder="Выберите файлы">
     <div id="recaptcha-v2" data-sitekey="6Le4y4knAAAAAD116p4P7f_e_YzmqLyg3s6qL3Qy" class="g-recaptcha" ></div>
 
-
-    <button type="submit">Submit</button>
+    <button type="submit">Отправить заявку</button>
 </form>
 
-<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+<form action="api/promotion" method="post" enctype="multipart/form-data">
+    <p>Добавление акции:</p>
+
+    <input type="text" name="title" placeholder="Заголовок акции">
+    <input type="text" name="description" placeholder="Описание">
+    <input type="file" name="image" placeholder="Выберите фото">
+
+
+    <button type="submit">Отправить заявку</button>
+</form>
+
+<form action="api/service" method="post" enctype="multipart/form-data">
+    <p>Добавление услуги:</p>
+
+    <input type="text" name="title" placeholder="Заголовок услуги">
+    <input type="text" name="description" placeholder="Описание">
+    <input type="file" name="image" placeholder="Выберите фото">
+
+
+    <button type="submit">Отправить заявку</button>
+</form>
+
 
 </body>
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
 </html>

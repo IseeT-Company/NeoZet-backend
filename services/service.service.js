@@ -14,7 +14,7 @@ class serviceService{
     }
 
     async createService(service){
-        const rows = await pool.query("INSERT INTO service(name,description,price) VALUES($1,$2,$3) RETURNING *",[service.name,service.description,service.price])
+        const rows = await pool.query("INSERT INTO service SET ?",service)
         return rows[0]
     }
 
@@ -27,6 +27,7 @@ class serviceService{
         const rows = await pool.query("DELETE FROM service WHERE id = $1",[id])
         return rows[0]
     }
+
 }
 
 

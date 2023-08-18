@@ -10,7 +10,7 @@ const emailRouter = Router()
 
 emailRouter.use(express.urlencoded({ extended: false }));
 emailRouter.use(express.json());
-emailRouter.use(captchaChecker);
+// emailRouter.use(captchaChecker);
 
 
 const storageConfig = multer.diskStorage({

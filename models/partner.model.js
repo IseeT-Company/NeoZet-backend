@@ -1,8 +1,8 @@
 
 
 export class partnerModel {
-    constructor(name,image_url){
+    constructor(name,image){
         this.name=name;
-        this.image_url=image_url;
+        this.image=image;
     }
 }

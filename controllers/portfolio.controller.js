@@ -1,6 +1,8 @@
 import portfolioService from "../services/portfolio.service.js"
 
 import portfolio from "../models/portfolio.model.js"
+import {partnerModel} from "../models/partner.model.js";
+import portfolioModel from "../models/portfolio.model.js";
 
 class portfolioController {
     async getPortfolios(req, res) {
@@ -22,8 +24,22 @@ class portfolioController {
     }
 
     async createPortfolio(req, res) {
-        const note = portfolioService.createPortfolio(req.body)
+        const {name, category} = req.body
+        const index = req.file.path.search("\\\\")
+        const image = "/" + req.file.path.slice(index+1)
+        const portfolio = new portfolioModel(name, image, category)
+        const note = portfolioService.createPortfolio(portfolio)
         res.status(201).send(note)
+    }
+
+    async updatePortfolio(req, res) {
+        const id = req.params.id
+        const {name, category} = req.body
+        const index = req.file.path.search("\\\\")
+        const image = "/" + req.file.path.slice(index+1)
+        const portfolio = new portfolioModel(name, image, category)
+        const note = await portfolioService.updatePortfolio(id, portfolio)
+        res.send(note)
     }
 
 }

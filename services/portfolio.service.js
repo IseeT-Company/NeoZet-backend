@@ -13,12 +13,18 @@ class portfolioService {
     }
 
     async createPortfolio(portfolio) {
-        const [rows] = await pool.query("INSERT INTO portfolio SET?", portfolio)
+        const [rows] = await pool.query("INSERT INTO portfolio SET?", portfolio, function (err, results) {
+            if (err) throw err
+            return "Portfolio created successfully"
+        })
         return rows
     }
 
     async updatePortfolio(id, portfolio) {
-        const [rows] = await pool.query("UPDATE portfolio SET? WHERE id =?", [portfolio, id])
+        const [rows] = await pool.query("UPDATE portfolio SET? WHERE id =?", [portfolio, id], function (err, result) {
+            if (err) throw err;
+            console.log(result.affectedRows + " record(s) updated");
+        })
         return rows
     }
 

@@ -4,38 +4,35 @@ import {config} from "dotenv";
 const authRouter = Router()
 
 config()
+import jwt from "jsonwebtoken";
 
-authRouter.post('/login', async function(req, res, next) {
-    const userSchema = {
-        'login': process.env.ADMIN_LOGIN,
-        'password': process.env.ADMIN_PASSWORD,
-    };
-    const loginDetails = {
-        'login': req.body.login,
-        'password': req.body.password,
-    }
-    console.log(loginDetails)
-    const result = userSchema.password === loginDetails.password && userSchema.login === loginDetails.login;
-    if (result) {
-        console.log("Auth is ready")
-        // const profile = await dao.login(loginDetails);
+const getUser = async (username) => {
+    return {password: process.env.ADMIN_PASSWORD, username: process.env.ADMIN_LOGIN};
+};
 
-        req.session.profile = "true";
-        res.redirect('/');
-        // } else {
-        //     res.render('login', {'login': profile,
-        //         'message': 'Could not authenticate using the user details provided',
-        //         'active': 'profile'});
-        // }
-    } else {
-        // Return validation message
+authRouter.post("/login", async (req, res) => {
+    const {username, password} = req.body;
+
+    const user = await getUser(username);
+
+    if (user.password !== password || user.username !== username) {
+        console.log(password + " " + username);
+        return res.status(403).json({
+            error: "invalid login",
+        });
     }
+
+    delete user.password;
+
+    const token = jwt.sign(user, process.env.TOKEN_KEY, {expiresIn: "2h"});
+
+    res.cookie("token", token);
+
+    return res.redirect("/admin");
 });
 
-authRouter.get('/logout', async function(req, res, next) {
-    req.session.destroy(function(err) {
-        console.log('Destroyed session')
-    })
+authRouter.get('/logout', async function (req, res, next) {
+    res.clearCookie('token');
     res.redirect('/');
 });
 

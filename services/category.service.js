@@ -13,13 +13,14 @@ class categoryService {
     }
 
     async createCategory(category) {
-        const rows = await pool.query("INSERT INTO category SET?", category)
+        const rows = await pool.query("INSERT INTO category (name) VALUES ?", category)
         return rows[0]
     }
 
     async updateCategory(id, category) {
         const rows = await pool.query("UPDATE category SET? WHERE id =?", [category, id])
         return rows[0]
+
     }
 
     async deleteCategory(id) {

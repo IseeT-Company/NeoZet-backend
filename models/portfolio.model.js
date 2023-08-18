@@ -1,7 +1,7 @@
-export default class portfolio {
-    constructor(name, image_url, category_id){
+export default class portfolioModel {
+    constructor(name, src, category_id){
         this.name = name;
-        this.image_url = image_url;
+        this.src = src;
         this.category_id = category_id;
     }
 }

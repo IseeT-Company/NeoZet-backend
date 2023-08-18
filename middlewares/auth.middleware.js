@@ -1,15 +1,16 @@
-let sessionChecker = (req, res, next) => {
-    console.log(`Session Checker: ${req.session.id}`.green);
-    console.log(req.session);
-    if (req.session.profile) {
-        console.log(`Found User Session`.green);
+import jwt from "jsonwebtoken";
+
+
+const cookieJwtAuth = (req, res, next) => {
+    console.log(req.cookie)
+    const token = req.cookies["token"];
+    try {
+        req.user = jwt.verify(token, process.env.TOKEN_KEY);
         next();
-    } else {
-        console.log(`No User Session Found`.red);
-        console.log("Error")
-        res.redirect('/login');
-
+    } catch (err) {
+        res.clearCookie("token");
+        return res.redirect("/login");
     }
-}
+};
 
-export default sessionChecker
+export default cookieJwtAuth;

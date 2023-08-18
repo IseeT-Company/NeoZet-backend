@@ -22,14 +22,21 @@ class promoService {
         return rows
     }
 
-    async updatePromotion(id, promotion) {
-        const [rows] = await pool.query("UPDATE promotion SET? WHERE id =?", [promotion, id])
-        return rows
+    async updatePromotionStatus(id) {
+        const [row] = await pool.query("SELECT status FROM promotion WHERE id =?", [id])
+        const status = row[0].status ? 0 : 1
+        const [rows] = await pool.query("UPDATE promotion SET status = ? WHERE id =?", [status, id])
+        return rows[0]
     }
 
     async deletePromotion(id) {
         const [rows] = await pool.query("DELETE FROM promotion WHERE id =?", [id])
         return rows
+    }
+
+    async updatePromotion(id, promotion) {
+        const [rows] = await pool.query("UPDATE promotion SET? WHERE id =?", [promotion, id])
+        return rows[0]
     }
 }
 

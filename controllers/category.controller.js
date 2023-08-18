@@ -20,8 +20,8 @@ class categoryController {
     }
 
     async createCategory(req, res) {
-        const {title, contents} = req.body
-        const note = await categoryService.createCategory(title, contents)
+        const {title} = req.body
+        const note = await categoryService.createCategory(title)
         res.status(201).send(note)
     }
 }

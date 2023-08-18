@@ -1,13 +1,32 @@
 import {Router} from "express";
 import portfolioController from "../controllers/portfolio.controller.js"
+import multer from "multer";
+import {nanoid} from "nanoid";
+import partnerController from "../controllers/partner.controller.js";
+import partnerRouter from "./partner.router.js";
+import cookieJwtAuth from "../middlewares/auth.middleware.js";
 
 const portfolioRouter = Router()
 
 
+const storageConfig = multer.diskStorage({
+    destination: (req, file, cb) =>{
+        cb(null, `static/uploads/portfolio`);
+    },
+    filename: (req, file, cb) =>{
+        const name = Buffer.from(file.originalname, 'latin1').toString('utf8')
+
+        cb(null, `${nanoid(10)}_${name}`);
+    }
+});
+const upload = multer({storage:storageConfig});
+portfolioRouter.post("/portfolio",cookieJwtAuth,upload.single("image"), portfolioController.createPortfolio)
+
 portfolioRouter.get("/portfolios", portfolioController.getPortfolios)
 portfolioRouter.get("/portfolio/:id", portfolioController.getPortfolio)
-portfolioRouter.post("/portfolio", portfolioController.createPortfolio)
-portfolioRouter.delete("/portfolio/:id", portfolioController.deletePortfolio)
+portfolioRouter.delete("/portfolio/:id",cookieJwtAuth, portfolioController.deletePortfolio)
+
+portfolioRouter.put("/portfolio/:id",cookieJwtAuth, upload.single("image"), portfolioController.updatePortfolio)
 
 
 portfolioRouter.use((err, req, res, next) => {

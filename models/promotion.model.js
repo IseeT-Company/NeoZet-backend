@@ -1,10 +1,10 @@
 
 
 
-export class protomoion{
-    constructor(title, image_url, description, status) {
+export class protomotionModel{
+    constructor(title, image, description, status = 1) {
         this.title = title;
-        this.image_url = image_url;
+        this.image = image;
         this.description = description;
         this.status = status;
     }

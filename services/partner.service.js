@@ -13,7 +13,7 @@ class partnerService {
     }
 
     async createPartner(partner) {
-        const [rows] = await pool.query("INSERT INTO partner SET?", partner)
+        const [rows] = await pool.query(`INSERT INTO partner SET ?`, partner)
         return rows
     }
 
