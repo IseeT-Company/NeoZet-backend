@@ -3,8 +3,6 @@ import messageController from "../controllers/message.controller.js"
 import multer from "multer";
 import fs from "fs"
 import {nanoid} from "nanoid";
-import captchaChecker from "../middlewares/recaptcha.middleware.js";
-import bodyParser from "body-parser";
 
 const emailRouter = Router()
 
@@ -16,7 +14,7 @@ emailRouter.use(express.json());
 const storageConfig = multer.diskStorage({
     destination: (req, file, cb) =>{
         // fs.mkdir(`uploads/${n}`)
-        cb(null, `uploads`);
+        cb(null, `static\\uploads\\requests`);
     },
     filename: (req, file, cb) =>{
         const name = Buffer.from(file.originalname, 'latin1').toString('utf8')

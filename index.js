@@ -1,6 +1,5 @@
 import express from 'express'
 import path from 'path'
-import tgRouter from "./routes/telegram.router.js"
 import promoRouter from "./routes/promo.router.js"
 import authRouter from "./routes/auth.router.js"
 import portfolioRouter from "./routes/portfolio.router.js"
@@ -28,7 +27,6 @@ app.use(express.urlencoded({extended: true}))
 app.use(cors()) // Use this after the variable declaration
 app.use(cookieParser());
 
-app.use("/tg", tgRouter)
 app.use("/api", messageRouter)
 app.use("/api", promoRouter)
 app.use("/api", portfolioRouter)

@@ -4,35 +4,17 @@ import {format} from "date-fns"
 import {expand} from "dotenv-expand";
 import * as fs from "fs";
 import FormData from "form-data"
-
+import TelegramBot from "node-telegram-bot-api";
 expand(config())
 
 class tgService {
+    bot = new TelegramBot(process.env.TELEGRAM_API_TOKEN, { polling: true });
 
     async SendMessage(name, email, phone, message, arcName, arcPath) {
         const formData = new FormData();
         try {
-
-            // const buffer3 = Buffer.from('buff it!');
-            // archive.append(buffer3, {name: 'file3.txt'});
-
-            console.log(arcPath, arcName)
-            formData.append('chat_id', process.env.CHAT_ID);
-            formData.append('caption', `Новая заявка: ${format(new Date(), 'MM.dd.yyyy')} \r\nИмя: ${name} \r\nПочта: ${email} \r\nНомер телефона: ${phone}  \r\nЗаявка: ${message}`);
-            // formData.append('document', await fs.createReadStream(`./static/test.txt`), `${arcName}.zip`);
-            formData.append('file', fs.createReadStream(`./uploads/${arcName}.zip`), `${arcName}.zip`);
-
-            await axios.post(process.env.TELEGRAM_URI, formData, {
-                headers: {
-                    "Content-Type": "application/x-www-form-urlencoded",
-                },
-            }.then(response => {
-                console.log(response.data);
-            })
-                .catch(error => {
-                    console.error(error);
-                }))
-            return 'Done'
+            const res = await this.bot.sendDocument(process.env.CHAT_ID, arcPath, {caption: `Новая заявка: ${format(new Date(), 'MM.dd.yyyy')} \r\nИмя: ${name} \r\nПочта: ${email} \r\nНомер телефона: ${phone}  \r\nЗаявка: ${message}`});
+            console.log(res)
         } catch (e) {
             console.log(e)
             return e

@@ -20,7 +20,7 @@ class messageController {
 
         const __dirname = path.resolve()
         const arcName = `${name.replace(" ", "_")}_${Date.now()}`
-        const arcPath = __dirname + `\\uploads\\${arcName}.zip`
+        const arcPath = __dirname + `\\static\\uploads\\requests\\${arcName}.zip`
         const output = fs.createWriteStream(arcPath);
         const archive = archiver('zip', {
             zlib: {level: 9} // Sets the compression level.
@@ -50,7 +50,7 @@ class messageController {
 
 
         const emailInfo = await emailService.sendWithAttachments(name, email, phone, message, arcPath, arcName+".zip")
-        // const tgInfo = await telegramService.SendMessage(name, email, phone, message, arcName, arcPath)
+        const tgInfo = await telegramService.SendMessage(name, email, phone, message, arcName, arcPath)
         // res.send(notes)
     }
 }
