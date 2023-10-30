@@ -6,6 +6,7 @@ import portfolioRouter from "./routes/portfolio.router.js"
 import categoryRouter from "./routes/category.router.js"
 import partnerRouter from "./routes/partner.router.js"
 import serviceRouter from "./routes/service.router.js"
+import advertRouter from "./routes/advert.router.js"
 import messageRouter from "./routes/message.router.js"
 
 import cors from "cors";
@@ -33,27 +34,17 @@ app.use("/api", portfolioRouter)
 app.use("/api", serviceRouter)
 app.use("/api", partnerRouter)
 app.use("/api", categoryRouter)
+app.use("/api", advertRouter)
 
 app.use("/", authRouter)
 
 app.use(express.static(path.resolve(__dirname, 'static')))
 
-app.get("/check", function (req, res){
-    res.sendFile(path.resolve(__dirname, 'static', 'check.html'))
-})
-
-app.get("/admin*", cookieJwtAuth ,function (req, res){
-    res.redirect('/check')
-})
-
-
-app.get("/login", function (req, res){
-    res.sendFile(path.resolve(__dirname, 'static', 'login.html'))
-})
-
 
 // console.log(app.get('static'))
 
-app.listen(3000, () =>{
-    console.log("Server is running on port 3000...")
+const PORT = process.env.PORT || 5000
+
+app.listen(PORT, () =>{
+    console.log(`Server is running on port ${PORT}...`)
 })

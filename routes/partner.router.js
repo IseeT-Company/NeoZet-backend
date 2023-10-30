@@ -9,7 +9,7 @@ const partnerRouter = Router()
 
 const storageConfig = multer.diskStorage({
     destination: (req, file, cb) =>{
-        cb(null, `static/uploads/category`);
+        cb(null, `static/uploads/partner`);
     },
     filename: (req, file, cb) =>{
         const name = Buffer.from(file.originalname, 'latin1').toString('utf8')
@@ -26,7 +26,7 @@ partnerRouter.get("/partner/:id", partnerController.getPartner)
 partnerRouter.delete("/partner/:id", cookieJwtAuth,partnerController.deletePartner)
 
 
-partnerRouter.put("/partner/:id", cookieJwtAuth, upload.single("image"), partnerController.updatePartner)
+partnerRouter.post("/partner/:id", cookieJwtAuth, upload.single("image"), partnerController.updatePartner)
 
 partnerRouter.use((err, req, res, next) => {
     console.error(err.stack)

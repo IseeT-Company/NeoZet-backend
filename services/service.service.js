@@ -24,7 +24,7 @@ class serviceService{
     }
 
     async deleteService(id){
-        const rows = await pool.query("DELETE FROM service WHERE id = $1",[id])
+        const rows = await pool.query("DELETE FROM service WHERE id = ?",[id])
         return rows[0]
     }
 

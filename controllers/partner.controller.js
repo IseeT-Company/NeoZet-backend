@@ -1,5 +1,6 @@
 import partnerService from "../services/partner.service.js"
 import {partnerModel} from "../models/partner.model.js";
+import Tools from "../services/tools.js"
 
 class partnerController {
     async getPartners(req, res) {
@@ -23,8 +24,12 @@ class partnerController {
     async createPartner(req, res) {
         
         const {name} = req.body
-        const index = req.file.path.search("\\\\")
-        const image = "/" + req.file.path.slice(index+1)
+        let image = null
+        if (req.file){
+            let path = Tools.changePath(req.file.path)
+            const index = path.search("\/")
+            image = "/" + path.slice(index+1)
+        }
         const partner = new partnerModel(name, image)
         const note = await partnerService.createPartner(partner)
         res.status(201).send(note)
@@ -34,7 +39,13 @@ class partnerController {
     async updatePartner(req, res) {
         const id = req.params.id
         const {name} = req.body
-        const partner = new partnerModel(name)
+        let image = null
+        if (req.file){
+            let path = Tools.changePath(req.file.path)
+            const index = path.search("\/")
+            image = "/" + path.slice(index+1)
+        }
+        const partner = new partnerModel(name, image)
         const note = await partnerService.updatePartner(id, partner)
         res.send(note)
     }

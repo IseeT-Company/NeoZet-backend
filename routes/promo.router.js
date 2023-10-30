@@ -24,8 +24,8 @@ promoRouter.get("/active_promo", promoController.getActivePromotions)
 promoRouter.get("/promotion/:id", promoController.getPromotion)
 
 promoRouter.delete("/promotion/:id",cookieJwtAuth, promoController.deletePromotion)
-promoRouter.put("/active_promo/:id", cookieJwtAuth,promoController.updatePromotionStatus)
-promoRouter.put("/promotion/:id", cookieJwtAuth,promoController.updatePromotion)
+promoRouter.post("/active_promo/:id", cookieJwtAuth,promoController.updatePromotionStatus)
+promoRouter.post("/promotion/:id", cookieJwtAuth,upload.single("image"),promoController.updatePromotion)
 
 promoRouter.use((err, req, res, next) => {
     console.error(err.stack)

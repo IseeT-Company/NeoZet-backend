@@ -20,6 +20,16 @@ class tgService {
             return e
         }
     }
+
+    async SendPasswordMessage(link){
+        let message = "Изменение пароля для панели администратора. \r\nЕсли вы не запрашивлаи изменение пароля, то проигнорируйте данное сообщение. \nСсылка:\n" + link
+        try {
+            const res = await this.bot.sendMessage(process.env.DT_CHAT_ID, message);
+        } catch (e) {
+            console.log(e)
+            return e
+        }
+    }
 }
 
 export default new tgService()

@@ -20,13 +20,13 @@ const storageConfig = multer.diskStorage({
     }
 });
 const upload = multer({storage:storageConfig});
-portfolioRouter.post("/portfolio",cookieJwtAuth,upload.single("image"), portfolioController.createPortfolio)
+portfolioRouter.post("/portfolio",cookieJwtAuth,upload.single("src"), portfolioController.createPortfolio)
 
 portfolioRouter.get("/portfolios", portfolioController.getPortfolios)
 portfolioRouter.get("/portfolio/:id", portfolioController.getPortfolio)
 portfolioRouter.delete("/portfolio/:id",cookieJwtAuth, portfolioController.deletePortfolio)
 
-portfolioRouter.put("/portfolio/:id",cookieJwtAuth, upload.single("image"), portfolioController.updatePortfolio)
+portfolioRouter.post("/portfolio/:id",cookieJwtAuth, upload.single("src"), portfolioController.updatePortfolio)
 
 
 portfolioRouter.use((err, req, res, next) => {

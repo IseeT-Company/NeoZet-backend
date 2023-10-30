@@ -35,8 +35,14 @@ class promoService {
     }
 
     async updatePromotion(id, promotion) {
-        const [rows] = await pool.query("UPDATE promotion SET? WHERE id =?", [promotion, id])
-        return rows[0]
+        let rows = null
+        if (promotion.image != null){
+            [rows] = await pool.query("UPDATE promotion SET? WHERE id =?", [promotion, id])
+        }
+        else{
+            [rows] = await pool.query("UPDATE promotion SET title = ?, description = ? WHERE id =?", [promotion.title, promotion.description, id])
+        }
+        return rows
     }
 }
 

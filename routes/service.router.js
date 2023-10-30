@@ -25,7 +25,7 @@ serviceRouter.get("/services", serviceController.getServices)
 serviceRouter.get("/service/:id", serviceController.getService)
 serviceRouter.delete("/service/:id",cookieJwtAuth, serviceController.deleteService)
 
-serviceRouter.put("/service/:id", cookieJwtAuth,upload.single("image"), serviceController.updateService)
+serviceRouter.post("/service/:id", cookieJwtAuth,upload.single("image"), serviceController.updateService)
 
 
 serviceRouter.use((err, req, res, next) => {

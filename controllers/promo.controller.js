@@ -1,5 +1,6 @@
 import promoService from "../services/promo.service.js"
 import {protomotionModel} from "../models/promotion.model.js";
+import Tools from "../services/tools.js"
 
 class promoController {
     async getPromotions(req, res) {
@@ -27,8 +28,12 @@ class promoController {
 
     async createPromotion(req, res) {
         const {title, description} = req.body
-        const index = req.file.path.search("\\\\")
-        const image = "/" + req.file.path.slice(index+1)
+        let image = null
+        if (req.file){
+            let path = Tools.changePath(req.file.path)
+            const index = path.search("\/")
+            image = "/" + path.slice(index+1)
+        }
         const promotion = new protomotionModel(title, image, description)
         const note = await promoService.createPromotion(promotion)
         res.status(201).send(note)
@@ -43,7 +48,15 @@ class promoController {
     async updatePromotion(req, res) {
         const {id} = req.params
         const {title, description} = req.body
-        const note = await promoService.updatePromotion(id, title, description)
+        console.log(title, description)
+        let image = null
+        if (req.file){
+            let path = Tools.changePath(req.file.path)
+            const index = path.search("\/")
+            image = "/" + path.slice(index+1)
+        }
+        const promotion = new protomotionModel(title, image, description)
+        const note = await promoService.updatePromotion(id, promotion)
         res.send(note)
     }
 }
