@@ -1,48 +1,83 @@
-import {pool} from "../models/db.js"
+import { pool } from "../models/db.js"
 
 class promoService {
 
     async getPromotions() {
-        const [rows] = await pool.query("SELECT * FROM promotion")
-        return rows
+        try {
+            const [rows] = await pool.query("SELECT * FROM promotion")
+            return rows
+        } catch (error) {
+            return error
+        }
+
     }
 
     async getActivePromotions() {
-        const [rows] = await pool.query("SELECT * FROM promotion WHERE status = 1")
-        return rows
+        try {
+            const [rows] = await pool.query("SELECT * FROM promotion WHERE status = 1")
+            return rows
+        } catch (error) {
+            return error
+        }
+
     }
 
     async getPromotion(id) {
-        const [rows] = await pool.query("SELECT * FROM promotion WHERE id =?", [id])
-        return rows[0]
+        try {
+            const [rows] = await pool.query("SELECT * FROM promotion WHERE id =?", [id])
+            return rows[0]
+        } catch (error) {
+            return error
+        }
+
     }
 
     async createPromotion(promotion) {
-        const [rows] = await pool.query("INSERT INTO promotion SET?", promotion)
-        return rows
+        try {
+            const [rows] = await pool.query("INSERT INTO promotion SET?", promotion)
+            return rows
+        } catch (error) {
+            return error
+        }
+
     }
 
     async updatePromotionStatus(id) {
-        const [row] = await pool.query("SELECT status FROM promotion WHERE id =?", [id])
-        const status = row[0].status ? 0 : 1
-        const [rows] = await pool.query("UPDATE promotion SET status = ? WHERE id =?", [status, id])
-        return rows[0]
+        try {
+            const [row] = await pool.query("SELECT status FROM promotion WHERE id =?", [id])
+            const status = row[0].status ? 0 : 1
+            const [rows] = await pool.query("UPDATE promotion SET status = ? WHERE id =?", [status, id])
+            return rows[0]
+        } catch (error) {
+            return error
+        }
+
     }
 
     async deletePromotion(id) {
-        const [rows] = await pool.query("DELETE FROM promotion WHERE id =?", [id])
-        return rows
+        try {
+            const [rows] = await pool.query("DELETE FROM promotion WHERE id =?", [id])
+            return rows
+        } catch (error) {
+            return error
+        }
+
     }
 
     async updatePromotion(id, promotion) {
-        let rows = null
-        if (promotion.image != null){
-            [rows] = await pool.query("UPDATE promotion SET? WHERE id =?", [promotion, id])
+        try {
+            let rows = null
+            if (promotion.image != null) {
+                [rows] = await pool.query("UPDATE promotion SET? WHERE id =?", [promotion, id])
+            }
+            else {
+                [rows] = await pool.query("UPDATE promotion SET title = ?, description = ? WHERE id =?", [promotion.title, promotion.description, id])
+            }
+            return rows
+        } catch (error) {
+            return error
         }
-        else{
-            [rows] = await pool.query("UPDATE promotion SET title = ?, description = ? WHERE id =?", [promotion.title, promotion.description, id])
-        }
-        return rows
+
     }
 }
 

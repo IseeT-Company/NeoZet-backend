@@ -10,7 +10,6 @@ const categoryRouter = Router()
 
 
 categoryRouter.post("/category", cookieJwtAuth, categoryController.createCategory)
-
 categoryRouter.get("/categories", categoryController.getCategories)
 categoryRouter.get("/category/:id", categoryController.getCategory)
 categoryRouter.delete("/category/:id", cookieJwtAuth,categoryController.deleteCategory)

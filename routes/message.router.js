@@ -3,7 +3,7 @@ import messageController from "../controllers/message.controller.js"
 import multer from "multer";
 import fs from "fs"
 import {nanoid} from "nanoid";
-
+import {formRequestValidation} from "../validators/request.validator.js"
 const emailRouter = Router()
 
 emailRouter.use(express.urlencoded({ extended: false }));
@@ -24,6 +24,6 @@ const storageConfig = multer.diskStorage({
 });
 
 const upload = multer({storage:storageConfig});
-emailRouter.post("/message", upload.array("filedata", 10),  messageController.sendWithAttachments)
+emailRouter.post("/message", upload.array("filedata", 10), formRequestValidation, messageController.sendWithAttachments)
 
 export default emailRouter

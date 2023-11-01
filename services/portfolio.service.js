@@ -4,22 +4,38 @@ import Tools from "./tools.js"
 
 class portfolioService {
     async getPortfolios() {
-        const [rows] = await pool.query("SELECT * FROM portfolio")
+        try {
+            const [rows] = await pool.query("SELECT * FROM portfolio JOIN category ON category.id = portfolio.category_id")
         return rows
+        } catch (error) {
+            return error
+        }
+        
     }
 
     async getPortfolio(id) {
+        try {
         const [rows] = await pool.query("SELECT * FROM portfolio WHERE id =?", [id])
-        return rows[0]
+        return rows[0]    
+        } catch (error) {
+            return error
+        }
+        
     }
 
     async createPortfolio(portfolio) {
+        try {
         const [rows] = await pool.query("INSERT INTO portfolio SET?", portfolio)
-        return rows
+        return rows    
+        } catch (error) {
+            return error
+        }
+        
     }
 
     async updatePortfolio(id, portfolio) {
-        let rows = null
+        try {
+            let rows = null
         if (portfolio.image != null){
             let prtf = await this.getPortfolio(id)
             Tools.deleteFile(prtf.src)
@@ -29,13 +45,22 @@ class portfolioService {
             [rows] = await pool.query("UPDATE portfolio SET name = ?, category_id = ? WHERE id =?", [portfolio.name, portfolio.category_id, id])
         }
         return rows
+        } catch (error) {
+            return error
+        }
+        
     }
 
     async deletePortfolio(id) {
-        let prtf = await this.getPortfolio(id)
+        try {
+            let prtf = await this.getPortfolio(id)
         Tools.deleteFile(prtf.src)
         const [rows] = await pool.query("DELETE FROM portfolio WHERE id =?", [id])
         return rows
+        } catch (error) {
+            return error
+        }
+        
     }
 }
 

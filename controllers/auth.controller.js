@@ -1,7 +1,7 @@
 import authService from "../services/auth.service.js"
 import tgService from "../services/telegram.service.js";
 import jwt from "jsonwebtoken";
-
+import { validationResult } from "express-validator";
 class authController {
     async login(req, res) {
         const {username, password} = req.body;
@@ -44,6 +44,10 @@ class authController {
     }
 
     async setTempPassword(req, res){
+        const errors = validationResult(req)
+        if (!errors.isEmpty()) {
+            res.status(400).send({errors : errors.errors})
+        }
         const {username, password} = req.body
         
         let ch = await authService.setTempPassword(username, password)

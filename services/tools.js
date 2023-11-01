@@ -6,16 +6,21 @@ class Tools{
     }
 
     deleteFile(filepath){
-        let fp = `${path.resolve()}/static${filepath}`
-        console.log(fp)
-        fs.unlink(fp, (err) =>{
-            if (err){
-                console.log(err)
-            }
-            else{
-                console.log(`File ${fp} succ deleted`)
-            }
-        })
+        try {
+            let fp = `${path.resolve()}/static${filepath}`
+            console.log(fp)
+            fs.unlink(fp, (err) =>{
+                if (err){
+                    console.log(err)
+                }
+                else{
+                    console.log(`File ${fp} succ deleted`)
+                }
+            })    
+        } catch (error) {
+            return error
+        }
+        
 
     }
 }
