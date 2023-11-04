@@ -1,7 +1,5 @@
-import serviceService from "../services/Service.service.js"
+import serviceService from "../services/service.service.js"
 
-import service from "../models/service.model.js"
-import {partnerModel} from "../models/partner.model.js";
 import serviceModel from "../models/service.model.js";
 import Tools from "../services/tools.js"
 class serviceController {
@@ -25,6 +23,7 @@ class serviceController {
 
     async createService(req, res) {
         const {title, description} = req.body
+        console.log(title, description)
         let image = null
         if (req.file){
             let path = Tools.changePath(req.file.path)
@@ -39,6 +38,7 @@ class serviceController {
     async updateService(req, res) {
         const id = req.params.id
         const {title, description} = req.body
+        console.log(title, description)
         let image = null
         if (req.file){
             let path = Tools.changePath(req.file.path)
@@ -46,6 +46,7 @@ class serviceController {
             image = "/" + path.slice(index+1)
         }
         const service = new serviceModel(title, image, description)
+        console.log(service)
         const note = serviceService.updateService(id, service)
         res.send(note)
     }

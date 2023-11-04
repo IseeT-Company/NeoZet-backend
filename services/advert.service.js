@@ -1,5 +1,5 @@
 import { pool } from "../models/db.js"
-
+import Tools from "./tools.js"
 class advertService {
 
     async getAdverts() {
@@ -25,11 +25,11 @@ class advertService {
     async createAdvert(advert) {
         try {
             let rows = null
-            if (advert.image != null) {
+            if (advert.title != null) {
                 [rows] = await pool.query(`INSERT INTO advert SET ?`, advert)
             }
             else {
-                [rows] = await pool.query(`INSERT INTO advert SET title = ?`, advert.title)
+                [rows] = await pool.query(`INSERT INTO advert SET image = ?`, advert.image)
             }
             return rows
         }
@@ -40,27 +40,34 @@ class advertService {
 
     async updateAdvert(id, advert) {
         try {
-            let rows = null;
+            let rows = null
             if (advert.image != null) {
-
-                [rows] = await pool.query("UPDATE advert SET? WHERE id =?", [advert, id])
+                let adv = await this.getAdvert(id)
+                if (adv.image){
+                    Tools.deleteFile(adv.image)
+                }
+                rows = await pool.query("UPDATE advert SET title = ?,image = ? WHERE id =?", [advert.title, advert.image, id])
             }
             else {
-                [rows] = await pool.query("UPDATE advert SET title = ? WHERE id =?", [advert.title, id])
+                rows = await pool.query("UPDATE advert SET title = ? WHERE id =?", [advert.title, id])
             }
-
-            return rows
+            return rows[0]
         } catch (error) {
+            console.log(error)
             return error
         }
     }
 
     async deleteAdvert(id) {
         try {
-            const [rows] = await pool.query("DELETE FROM advert WHERE id =?", [id])
-            return rows
-        }
-        catch (error) {
+            let adv = await this.getAdvert(id)
+            if (adv.image){
+                Tools.deleteFile(adv.image)
+            }
+            const rows = await pool.query("DELETE FROM advert WHERE id = ?", [id])
+            return rows[0]
+        } catch (error) {
+            console.log(error)
             return error
         }
     }

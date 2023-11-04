@@ -1,5 +1,6 @@
 import { pool } from "../models/db.js"
 
+import Tools from "./tools.js"
 
 class serviceService {
     async getServices() {
@@ -15,7 +16,7 @@ class serviceService {
 
     async getService(id) {
         try {
-            const rows = await pool.query("SELECT * FROM service WHERE id = $1", [id])
+            const [rows] = await pool.query("SELECT * FROM service WHERE id = ?", [id])
             return rows[0]
         } catch (error) {
             return error
@@ -35,9 +36,20 @@ class serviceService {
 
     async updateService(id, service) {
         try {
-            const rows = await pool.query("UPDATE service SET name = $1,description = $2,price = $3 WHERE id = $4", [service.name, service.description, service.price, id])
+            let rows = null
+            if (service.image != null) {
+                let srv = await this.getService(id)
+                if (srv.image){
+                    Tools.deleteFile(srv.image)
+                }
+                rows = await pool.query("UPDATE service SET title = ?, description = ?, image = ? WHERE id =?", [service.title, service.description, service.image, id])
+            }
+            else {
+                rows = await pool.query("UPDATE service SET title = ?, description = ? WHERE id =?", [service.title, service.description, id])
+            }
             return rows[0]
         } catch (error) {
+            console.log(error)
             return error
         }
 
@@ -45,6 +57,10 @@ class serviceService {
 
     async deleteService(id) {
         try {
+            let srv = await this.getService(id)
+            if (srv.image){
+                Tools.deleteFile(srv.image)
+            }
             const rows = await pool.query("DELETE FROM service WHERE id = ?", [id])
             return rows[0]
         } catch (error) {

@@ -9,7 +9,7 @@ const advertRouter = Router()
 
 const storageConfig = multer.diskStorage({
     destination: (req, file, cb) =>{
-        cb(null, `static/uploads/category`);
+        cb(null, `static/uploads/advert`);
     },
     filename: (req, file, cb) =>{
         const name = Buffer.from(file.originalname, 'latin1').toString('utf8')

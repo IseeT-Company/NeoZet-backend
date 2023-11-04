@@ -5,7 +5,7 @@ import Tools from "./tools.js"
 class portfolioService {
     async getPortfolios() {
         try {
-            const [rows] = await pool.query("SELECT * FROM portfolio JOIN category ON category.id = portfolio.category_id")
+            const [rows] = await pool.query("SELECT portfolio.*, category.category_name FROM portfolio JOIN category ON category.id = portfolio.category_id")
         return rows
         } catch (error) {
             return error
@@ -42,7 +42,12 @@ class portfolioService {
             [rows] = await pool.query("UPDATE portfolio SET? WHERE id =?", [portfolio, id])
         }
         else{
-            [rows] = await pool.query("UPDATE portfolio SET name = ?, category_id = ? WHERE id =?", [portfolio.name, portfolio.category_id, id])
+            if (portfolio.category_id != "null"){
+                [rows] = await pool.query("UPDATE portfolio SET name = ?, category_id = ? WHERE id =?", [portfolio.name, portfolio.category_id, id])                
+            }
+            else{
+                [rows] = await pool.query("UPDATE portfolio SET name = ? WHERE id =?", [portfolio.name, id])                
+            }
         }
         return rows
         } catch (error) {

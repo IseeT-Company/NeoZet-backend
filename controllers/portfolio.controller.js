@@ -27,6 +27,7 @@ class portfolioController {
     async createPortfolio(req, res) {
         console.log(req.body)
         const {name, category_id} = req.body
+        console.log(name, category_id)
         let image = null
         if (req.file){
             let path = Tools.changePath(req.file.path)
@@ -40,15 +41,15 @@ class portfolioController {
 
     async updatePortfolio(req, res) {
         const id = req.params.id
-        const {name, category_name} = req.body
-        console.log(req.body)
+        const {name, category_id} = req.body
+        console.log(name, category_id)
         let image = null
         if (req.file){
             let path = Tools.changePath(req.file.path)
             const index = path.search("\/")
             image = "/" + path.slice(index+1)
         }
-        const portfolio = new portfolioModel(name, image, category_name)
+        const portfolio = new portfolioModel(name, image, category_id)
         const note = await portfolioService.updatePortfolio(id, portfolio)
         res.send(note)
     }

@@ -22,9 +22,9 @@ class categoryService {
         }
     }
 
-    async createCategory(category) {
+    async createCategory(category_name) {
         try {
-            const rows = await pool.query("INSERT INTO category (name) VALUES ?", category)
+            const rows = await pool.query(`INSERT INTO category SET category_name = ?`, [category_name])
             return rows[0]
         }
         catch (error) {
@@ -32,9 +32,11 @@ class categoryService {
         }
     }
 
-    async updateCategory(id, category) {
+    async updateCategory(id, category_name) {
         try {
-            const rows = await pool.query("UPDATE category SET? WHERE id =?", [category, id])
+            const rows = await pool.query("UPDATE category SET category_name = ? WHERE id =?", [category_name, id])
+            console.log(123)
+            console.log(id, category_name)
             return rows[0]
         }
         catch (error) {

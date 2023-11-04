@@ -13,6 +13,7 @@ categoryRouter.post("/category", cookieJwtAuth, categoryController.createCategor
 categoryRouter.get("/categories", categoryController.getCategories)
 categoryRouter.get("/category/:id", categoryController.getCategory)
 categoryRouter.delete("/category/:id", cookieJwtAuth,categoryController.deleteCategory)
+categoryRouter.post("/category/:id", cookieJwtAuth, categoryController.updateCategory)
 
 
 categoryRouter.use((err, req, res, next) => {

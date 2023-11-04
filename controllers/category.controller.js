@@ -15,13 +15,21 @@ class categoryController {
 
     async deleteCategory(req, res) {
         const id = req.params.id
+        console.log(123)
         const note = await categoryService.deleteCategory(id)
         res.send(note)
     }
 
     async createCategory(req, res) {
-        const {title} = req.body
-        const note = await categoryService.createCategory(title)
+        const {category_name} = req.body
+        const note = await categoryService.createCategory(category_name)
+        res.status(201).send(note)
+    }
+
+    async updateCategory(req, res) {
+        const id = req.params.id
+        const {category_name} = req.body
+        const note = await categoryService.updateCategory(id, category_name)
         res.status(201).send(note)
     }
 }

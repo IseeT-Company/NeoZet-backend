@@ -8,6 +8,7 @@ class Tools{
     deleteFile(filepath){
         try {
             let fp = `${path.resolve()}/static${filepath}`
+            console.log("Deleting file: ", fp)
             console.log(fp)
             fs.unlink(fp, (err) =>{
                 if (err){
